@@ -40,24 +40,19 @@ void * Cliente::escucharServidor(void *cli){
 /*
 * Metodo escribir servidor
 */
-void * Cliente::escribirServidor(void * cli){
+void * Cliente::escribirServidor(void * cli, char msg[]){
 	Cliente* cliente =(Cliente *) cli;
 	
 	int conectado=1;
-	while(conectado){
+	
+	int i=send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
+	sleep(1);
 		
-		char msg[128];
-		sprintf(msg,"Hola ");
-		
-		int i=send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
-		sleep(1);
-		
-		if(i==-1){
-			conectado=0;
-			cout<<"Se desconecto del servidor"<<endl;
-			close(cliente->getDescriptor());
-			exit(EXIT_SUCCESS);
-		}
+	if(i==-1){
+		conectado=0;
+		cout<<"Se desconecto del servidor"<<endl;
+		close(cliente->getDescriptor());
+		exit(EXIT_SUCCESS);
 	}
 }
 /*
@@ -78,7 +73,7 @@ void * Cliente::opciones(void * cli){
 		break;
 		case 2: listarArchivos(cli);
 		break;
-		case 3: eliminarArhivo(cli);
+		case 3: eliminarArchivo(cli);
 		break;
 		default: balancearCarga(cli);
 	}
@@ -88,17 +83,19 @@ void * Cliente::opciones(void * cli){
 */
 void * Cliente::enviarArchivo(void * cli){
 	Cliente * cliente = (Cliente *) cli;
-	char url[];
-	char buffer[BUFFSIZE]
+	char msg[] = "1";//esto indica que se va a enviar el archivo
+	escribirServidor((void *)cli,msg);	
+	char url[200];
+	char buffer[BUFFSIZE];
 	cout<<"ingrese la ruta del archivo a enviar"<<endl;
 	cin>>url;
 	cin.get();
 	FILE * archivo;
-	archivo = fopen(utl,"rb");
+	archivo = fopen(url,"rb");
 	while(!feof(archivo)){
 		fread(buffer,sizeof(char),BUFFSIZE, archivo);
-		if(send(cliente->getDescriptor(),buffer,BUFFERSIZE,0)){
-		  cout<<Error al enviar el archivo<<endl;
+		if(send(cliente->getDescriptor(),buffer,BUFFSIZE,0)){
+		  cout<<"Error al enviar el archivo"<<endl;
 		}	 
 	}
 	opciones(cli);	
@@ -107,18 +104,18 @@ void * Cliente::enviarArchivo(void * cli){
 /*
 * Metodo de listar archivos
 */
-void * Cliente::listarArchivos(){
+void * Cliente::listarArchivos(void * cli){
 }
 
 /*
 * Metodo eliminar archivo
 */
-void * Cliente::eliminarArchivo(){
+void * Cliente::eliminarArchivo(void * cli){
 }
 /*
 *Metodo balancear carga
 */
-void * Cliente::balancearCarga(){
+void * Cliente::balancearCarga(void * cli){
 
 }
 /*
@@ -137,10 +134,10 @@ void Cliente::conectarServidor(){
 		pthread_t hiloEscucha;
 		pthread_create(&hiloEscucha,NULL,escucharServidor,(void *)this);
 		
-		pthread_t hiloEscribe;
-		pthread_create(&hiloEscribe,NULL,escribirServidor,(void *)this);
+	//	pthread_t hiloEscribe;
+	//	pthread_create(&hiloEscribe,NULL,escribirServidor,(void *)this);
 		
-		opciones();
+		opciones((void *)this);
 		while(1);
 	}else{
 		cout<<"No se pudo conectar con el servidor"<<endl;

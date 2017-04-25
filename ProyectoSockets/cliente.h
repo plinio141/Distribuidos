@@ -18,6 +18,8 @@
 #include <sstream>
 #include <vector>
 
+#define BUFFSIZE 1
+
 using namespace std;
 
 class Cliente{
@@ -41,12 +43,12 @@ class Cliente{
 		//******* Metodos ******
 		void conectarServidor(void);
 		static void * escucharServidor(void*);
-		static void * escribirServidor(void*);
-		static void * opciones();
-		static void * enviarArchivo();
-		static void * listarArchivos();
-		static void * eliminarArchivo();
-		static void * balancearCarga();
+		static void * escribirServidor(void*,char *);
+		static void * opciones(void *);
+		static void * enviarArchivo(void *);
+		static void * listarArchivos(void *);
+		static void * eliminarArchivo(void *);
+		static void * balancearCarga(void *);
 		//******* Getters ******
 		int getDescriptor(void);
 		bool getEstado(void);
