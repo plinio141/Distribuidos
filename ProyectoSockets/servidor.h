@@ -3,7 +3,9 @@
 ///////////////////////////////////////////
 
 #include "clienteInfo.h"
+#include <string.h>
 #define maxClientes 100
+#define BUFFSIZE 1
 
 class Servidor{
 	
@@ -30,6 +32,9 @@ class Servidor{
 		void cerrarServidor(void);
 		static void * comenzarServidor(void *);
 		void ejecutarServidor(void);
+		void recibirArchivo(void *, FILE *file);
+		void enviarConfirmacion(void *);
+		void enviarMD5SUM(void *);
 		
 		//****** Setters ******
 		void setDescriptorServidor(int);

@@ -51,6 +51,7 @@ void Servidor::cerrarServidor(){
 */
 void * recibirCliente(void *cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
+	char key[] = "1";
 	char mensajeDeCliente[128];
 	
 	while(cliente->getEstado()){
@@ -58,14 +59,12 @@ void * recibirCliente(void *cli){
 		sleep(1);
 		
 		if(i!=0){
-			cout<<"El cliente con IP: "<<inet_ntoa(cliente->getClienteInfor().sin_addr)<<" envio: "<<mensajeDeCliente<<endl;
+			if(strcmp (key,mensajeDeCliente) != 0){
+				FILE *archivo;
+				recibirArchivo((void *)cli, archivo);
 
-			char mensajeACliente[128];
-
-			//cout<<mensajeAcliente<<"chao "<<cliente-->getId()<<endl;
-
-			sprintf(mensajeACliente, "Chao %d", cliente-> getId());
-			send(cliente->getDescriptorCliente(), (void *)mensajeACliente, sizeof(mensajeACliente),0);
+			}
+			
 		}else{
 			cout<<"Se desconecto el cliente con IP: "<<inet_ntoa(cliente->getClienteInfor().sin_addr)<<" con error "<<endl;
 			cliente->setEstado(false);
@@ -101,6 +100,50 @@ void Servidor::aceptarClientes(){
 		}
 	}
 }
+
+/*
+*Recibir Archivo
+*/
+void recibirArchivo(void * cli, FILE *file){
+	char buffer[BUFFSIZE];
+	int recibido = -1;
+
+	/*Se abre el archivo para escritura*/
+	file = fopen("archivoRecibido","wb");
+	enviarConfirmacion(SocketFD);
+	enviarMD5SUM(SocketFD);
+	while((recibido = recv(SocketFD, buffer, BUFFSIZE, 0)) > 0){
+		printf("%s",buffer);
+		fwrite(buffer,sizeof(char),1,file);
+	}//Termina la recepción del archivo
+
+	fclose(file);
+	
+
+}
+void enviarConfirmacion(int SocketFD){
+	char mensaje[80] = "Paquete Recibido";
+	int lenMensaje = strlen(mensaje);
+	printf("\nConfirmación enviada\n");
+	if(write(SocketFD,mensaje,sizeof(mensaje)) == ERROR)
+			perror("Error al enviar la confirmación:");
+
+	
+}//End enviarConfirmacion
+
+void enviarMD5SUM(int SocketFD){
+	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
+	char *fileName = "verificacion";
+	char md5sum[80];
+	system("md5sum archivoRecibido >> verificacion");
+	
+	tmp = fopen(fileName,"r");
+	fscanf(tmp,"%s",md5sum);	
+	printf("\nMD5SUM:%s\n",md5sum);	
+	write(SocketFD,md5sum,sizeof(md5sum));
+	fclose(tmp);
+
+}//End enviarMD5DUM
 
 /*
 * Metodo comenzar servidor
