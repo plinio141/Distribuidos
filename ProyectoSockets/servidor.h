@@ -32,9 +32,9 @@ class Servidor{
 		void cerrarServidor(void);
 		static void * comenzarServidor(void *);
 		void ejecutarServidor(void);
-		void recibirArchivo(void *, FILE *file);
-		void enviarConfirmacion(void *);
-		void enviarMD5SUM(void *);
+		static void * recibirArchivo(void *, FILE *);
+		static void * enviarConfirmacion(void *);
+		static void * void enviarMD5SUM(void *);
 		
 		//****** Setters ******
 		void setDescriptorServidor(int);
