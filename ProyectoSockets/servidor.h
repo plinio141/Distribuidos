@@ -31,7 +31,7 @@ class Servidor{
 		void aceptarClientes(void);
 		void cerrarServidor(void);
 		static void * comenzarServidor(void *);
-		void* ejecutarServidor(void*);
+		void ejecutarServidor(void);
 		void*  recibirArchivo(void*);
 		void* enviarConfirmacion(void*);
 		void* enviarMD5SUM(void*);
