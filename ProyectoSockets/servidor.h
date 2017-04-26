@@ -31,10 +31,6 @@ class Servidor{
 		void aceptarClientes(void);
 		void cerrarServidor(void);
 		static void * comenzarServidor(void *);
-		void ejecutarServidor(void);
-		static void * recibirArchivo(void *);
-		static void * enviarConfirmacion(void *);
-		static void * enviarMD5SUM(void *);
 		
 		//****** Setters ******
 		void setDescriptorServidor(int);
