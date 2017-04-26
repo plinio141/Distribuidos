@@ -84,7 +84,7 @@ void Servidor::aceptarClientes(){
 	char cliente[] = "1"; 
 	char almacenamiento[] = "2";
 	
-	while(cont<maxClientes){
+	while((contClientes+contAlmacenamiento)<maxClientes){ 
 
 		struct sockaddr_in clienteInfor;
 		int tamano=sizeof(struct sockaddr_in);
