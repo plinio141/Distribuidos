@@ -34,6 +34,11 @@ class ClienteInfo{
 		// ******* destructor *****
 		~ClienteInfo();
 
+		// ***** Metodos
+		void  recibirArchivo(void*);
+		void enviarConfirmacion(void*);
+		void enviarMD5SUM(void*);
+
 		//***** Getters ******
 		int getId(void);
 		int getDescriptorCliente(void);
