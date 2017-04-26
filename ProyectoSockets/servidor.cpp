@@ -110,7 +110,7 @@ void * Servidor::recibirArchivo(void * cli){
 	int recibido = -1;
 
 	/*Se abre el archivo para escritura*/
-	FILE *archivo;
+	FILE archivo;
 	file = fopen("archivoRecibido","wb");
 	enviarConfirmacion((void *)cli);
 	enviarMD5SUM((void *) cli);
