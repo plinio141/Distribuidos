@@ -15,7 +15,7 @@ ClienteInfo::ClienteInfo(int desc, struct sockaddr_in infor){
 /*
 *Recibir Archivo
 */
-void * Servidor::recibirArchivo(void * cli){
+void ClienteInfo::recibirArchivo(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char buffer[BUFFSIZE];
 	int recibido = -1;
@@ -34,7 +34,7 @@ void * Servidor::recibirArchivo(void * cli){
 	
 
 }
-void * Servidor::enviarConfirmacion(void * cli){
+void ClienteInfo::enviarConfirmacion(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char mensaje[80] = "Paquete Recibido";
 	int lenMensaje = strlen(mensaje);
@@ -45,7 +45,7 @@ void * Servidor::enviarConfirmacion(void * cli){
 	
 }//End enviarConfirmacion
 
-void * Servidor::enviarMD5SUM(void * cli){
+void ClienteInfo::enviarMD5SUM(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
 	char fileName[] = "verificacion";

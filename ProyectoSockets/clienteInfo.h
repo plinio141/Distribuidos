@@ -18,6 +18,8 @@
 
 using namespace std;
 
+#define BUFFSIZE 1
+
 class ClienteInfo{
 	
 	//****** atributos *****
