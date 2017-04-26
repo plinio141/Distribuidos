@@ -60,8 +60,8 @@ void * recibirCliente(void *cli){
 		
 		if(i!=0){
 			if(strcmp (key,mensajeDeCliente) != 0){
-				FILE *archivo;
-				recibirArchivo((void *)cli, archivo);
+				
+				recibirArchivo((void *)cli);
 
 			}
 			
@@ -104,12 +104,13 @@ void Servidor::aceptarClientes(){
 /*
 *Recibir Archivo
 */
-void recibirArchivo(void * cli, FILE *file){
+void recibirArchivo(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char buffer[BUFFSIZE];
 	int recibido = -1;
 
 	/*Se abre el archivo para escritura*/
+	FILE *archivo;
 	file = fopen("archivoRecibido","wb");
 	enviarConfirmacion((void *)cli);
 	enviarMD5SUM((void *) cli);
