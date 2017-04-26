@@ -61,7 +61,7 @@ void * recibirCliente(void *cli){
 		if(i!=0){
 			if(strcmp (key,mensajeDeCliente) != 0){
 				
-				recibirArchivo(cli);
+				recibirArchivo((void *)cliente);
 
 			}
 			
@@ -112,8 +112,8 @@ void * Servidor::recibirArchivo(void * cli){
 	/*Se abre el archivo para escritura*/
 	FILE * file;
 	file = fopen("archivoRecibido","wb");
-	enviarConfirmacion((void *)cli);
-	enviarMD5SUM((void *)cli);
+	enviarConfirmacion((void *)cliente);
+	enviarMD5SUM((void *)cliente);
 	while((recibido = recv(cliente->getDescriptorCliente(), buffer, BUFFSIZE, 0)) > 0){
 		printf("%s",buffer);
 		fwrite(buffer,sizeof(char),1,file);
