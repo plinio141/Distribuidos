@@ -99,6 +99,7 @@ void Servidor::aceptarClientes(){
 			int i=recv(descriptorCliente, (void *)&mensajeDeCliente,128,0);
 
 			if(i!=0){
+				cout<<mensajeDeCliente<<endl;
 				if(strcmp (cliente,mensajeDeCliente) != 0){
 					
 					clientesDescriptorClientes.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
