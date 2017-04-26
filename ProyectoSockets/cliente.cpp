@@ -96,7 +96,7 @@ void * Cliente::enviarArchivo(void * cli){
 
 	while(!feof(archivo)){
 		fread(buffer,sizeof(char),BUFFSIZE, archivo);
-		if(send(cliente->getDescriptor(),buffer,BUFFSIZE,0)){
+		if(send(cliente->getDescriptor(),buffer,BUFFSIZE,0)==-1){
 		  cout<<"Error al enviar el archivo"<<endl;
 		}	 
 	}
