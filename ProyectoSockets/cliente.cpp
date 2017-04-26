@@ -83,8 +83,6 @@ void * Cliente::opciones(void * cli){
 */
 void * Cliente::enviarArchivo(void * cli){
 	Cliente * cliente = (Cliente *) cli;
-	char msg[] = "1";//esto indica que se va a enviar el archivo
-	escribirServidor((void *)cli,msg);	
 	char url[200];
 	char buffer[BUFFSIZE];
 	cout<<"ingrese la ruta del archivo a enviar"<<endl;
@@ -92,12 +90,23 @@ void * Cliente::enviarArchivo(void * cli){
 	cin.get();
 	FILE * archivo;
 	archivo = fopen(url,"rb");
+	//definir el envio del archivo
+	char msg[] = "1";//esto indica que se va a enviar el archivo
+	escribirServidor((void *)cli,msg);	
+	
 	while(!feof(archivo)){
 		fread(buffer,sizeof(char),BUFFSIZE, archivo);
 		if(send(cliente->getDescriptor(),buffer,BUFFSIZE,0)){
 		  cout<<"Error al enviar el archivo"<<endl;
 		}	 
 	}
+	read(cliente->getDescriptor(),mensaje,sizeof(mensaje));
+	printf("\nConfirmación recibida:\n%s\n",mensaje);
+	
+	read(cliente->getDescriptor(),mensaje,sizeof(mensaje));
+	printf("\nMD5SUM:\n%s\n",mensaje);
+	
+	fclose(archivo);
 	opciones(cli);	
 }
 

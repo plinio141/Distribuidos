@@ -105,14 +105,15 @@ void Servidor::aceptarClientes(){
 *Recibir Archivo
 */
 void recibirArchivo(void * cli, FILE *file){
+	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char buffer[BUFFSIZE];
 	int recibido = -1;
 
 	/*Se abre el archivo para escritura*/
 	file = fopen("archivoRecibido","wb");
-	enviarConfirmacion(SocketFD);
-	enviarMD5SUM(SocketFD);
-	while((recibido = recv(SocketFD, buffer, BUFFSIZE, 0)) > 0){
+	enviarConfirmacion((void *)cli);
+	enviarMD5SUM((void *) cli);
+	while((recibido = recv(cliente->getDescriptorCliente(), buffer, BUFFSIZE, 0)) > 0){
 		printf("%s",buffer);
 		fwrite(buffer,sizeof(char),1,file);
 	}//Termina la recepción del archivo
@@ -121,17 +122,19 @@ void recibirArchivo(void * cli, FILE *file){
 	
 
 }
-void enviarConfirmacion(int SocketFD){
+void enviarConfirmacion(void * cli){
+	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char mensaje[80] = "Paquete Recibido";
 	int lenMensaje = strlen(mensaje);
 	printf("\nConfirmación enviada\n");
-	if(write(SocketFD,mensaje,sizeof(mensaje)) == ERROR)
+	if(write(cliente->getDescriptorCliente(),mensaje,sizeof(mensaje)) == ERROR)
 			perror("Error al enviar la confirmación:");
 
 	
 }//End enviarConfirmacion
 
-void enviarMD5SUM(int SocketFD){
+void enviarMD5SUM(void * cli){
+	ClienteInfo * cliente = (ClienteInfo *) cli;
 	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
 	char *fileName = "verificacion";
 	char md5sum[80];
@@ -140,7 +143,7 @@ void enviarMD5SUM(int SocketFD){
 	tmp = fopen(fileName,"r");
 	fscanf(tmp,"%s",md5sum);	
 	printf("\nMD5SUM:%s\n",md5sum);	
-	write(SocketFD,md5sum,sizeof(md5sum));
+	write(cliente->getDescriptorCliente(),md5sum,sizeof(md5sum));
 	fclose(tmp);
 
 }//End enviarMD5DUM
