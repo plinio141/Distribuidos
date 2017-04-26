@@ -32,10 +32,8 @@ class Servidor{
 		void cerrarServidor(void);
 		static void * comenzarServidor(void *);
 		void ejecutarServidor(void);
-		static void*  recibirArchivo(void*);
-		static void* enviarConfirmacion(void*);
-		static void* enviarMD5SUM(void*);
-		
+		static void  recibirArchivo(void*);
+		static void enviarConfirmacion(void*);		
 		//****** Setters ******
 		void setDescriptorServidor(int);
 		void setIdBind(int);
