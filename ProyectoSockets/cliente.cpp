@@ -140,7 +140,7 @@ void Cliente::conectarServidor(){
 	servidorInfo.sin_port=htons(puertoServidor);
 	
 	int conn=connect(descriptorCliente,(struct sockaddr *)&servidorInfo,sizeof(servidorInfo));
-	
+	cout<<tipoCliente<<endl;
 	if(conn!=-1){
 		if(tipoCliente==2){
 			char msg[] = "1";//esto indica que es usuario
