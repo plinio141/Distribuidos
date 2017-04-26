@@ -33,8 +33,8 @@ class Servidor{
 		static void * comenzarServidor(void *);
 		void ejecutarServidor(void);
 		static void*  recibirArchivo(void*);
-		void* enviarConfirmacion(void*);
-		void* enviarMD5SUM(void*);
+		static void* enviarConfirmacion(void*);
+		static void* enviarMD5SUM(void*);
 		
 		//****** Setters ******
 		void setDescriptorServidor(int);
