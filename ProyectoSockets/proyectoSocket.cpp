@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 	int tipo =0;
 	int puerto=0;
 	
-	cout<<"Seleccione el tipo: 1=Servidor ; 2=Cliente . Cual?:   ";
+	cout<<"Seleccione el tipo: 1=Servidor ; 2=Cliente; 3= Almacenamiento. Cual?:   ";
 	cin>>tipo;
 	cin.get();
 	
@@ -34,14 +34,14 @@ int main(int argc, char *argv[]) {
 			while(1);
 		}
 		
-		if(val==2){
+		if(val==2 && val == 3){
 			
 			cout<< "Nombre del host o IP: ";
 				string host;
 				getline(cin,host);
 
 			
-			Cliente * cliente = new Cliente(puerto,host);
+			Cliente * cliente = new Cliente(puerto,host, val);
 				cliente->conectarServidor();
 		}
 		return 0;

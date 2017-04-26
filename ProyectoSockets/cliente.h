@@ -31,11 +31,12 @@ class Cliente{
 		int puertoServidor;
 		string ipServidor;
 		bool estado;
+		int tipoCliente; //cliente o almacenamiento
 	
 	public:
 		//******* Constructores ******
 		Cliente(void);
-		Cliente(int, string);
+		Cliente(int, string, int);
 			
 		//******* destructor ****
 		~Cliente();

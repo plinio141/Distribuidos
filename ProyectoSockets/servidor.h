@@ -15,6 +15,8 @@ class Servidor{
 		int puerto;
 		struct sockaddr_in servidorInfo;
 		vector<ClienteInfo *> clientesDescriptor;
+		vector<ClienteInfo *> clientesDescriptorClientes;
+		vector<ClienteInfo *> clientesDescriptorAlmacenamiento;
 		
 		bool state;
 		

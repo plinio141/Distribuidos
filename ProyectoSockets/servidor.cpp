@@ -51,7 +51,7 @@ void Servidor::cerrarServidor(){
 */
 void * recibirCliente(void *cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
-	char key[] = "1";
+	char key[] = "1"; // Opcion de recibir archivo
 	char mensajeDeCliente[128];
 	
 	while(cliente->getEstado()){
@@ -79,24 +79,50 @@ void * recibirCliente(void *cli){
 void Servidor::aceptarClientes(){
 
 	int descriptorCliente;
-	cont=0;
+	contClientes=0;
+	contAlmacenamiento=0;
+	char cliente[] = "1"; 
+	char almacenamiento[] = "2";
 	
 	while(cont<maxClientes){
+
 		struct sockaddr_in clienteInfor;
 		int tamano=sizeof(struct sockaddr_in);
 		cout<<"Aceptando cliente.."<<endl;
 		descriptorCliente=accept(this->descriptorSer, (struct sockaddr *)&clienteInfor, (socklen_t*) &tamano);
 		
+		
 		// recibiendo clientes
 		if(descriptorCliente!=-1){
 			cout<<"Cliente CONECTADO" <<endl;
-			clientesDescriptor.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
-			pthread_t clientesHilos;
-			
-			pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) clientesDescriptor[cont]);
-			
-			clientesDescriptor[cont]->setId(cont);
-			cont++;
+			char mensajeDeCliente[128];
+			int i=recv(descriptorCliente, (void *)&mensajeDeCliente,128,0);
+
+			if(i!=0){
+				if(strcmp (cliente,mensajeDeCliente) != 0){
+					
+					clientesDescriptorClientes.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
+					pthread_t clientesHilos;
+					
+					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) clientesDescriptorClientes[contClientes]);
+					
+					clientesDescriptorClientes[contClientes]->setId(contClientes);
+					contClientes++;
+					cout<<"Cliente"<<endl;
+				}else{
+					clientesDescriptorAlmacenamiento.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
+					pthread_t clientesHilos;
+					
+					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) clientesDescriptorAlmacenamiento[contClientes]);
+					
+					clientesDescriptorAlmacenamiento[contAlmacenamiento]->setId(contAlmacenamiento);
+					contAlmacenamiento++;
+					cout<<"Almacenamiento"<<endl;
+				}
+			}else{
+				cout<<"Se desconecto el cliente con IP: con error "<<endl;
+				close(getDescriptorCliente());
+			}
 		}
 	}
 }

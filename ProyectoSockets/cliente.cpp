@@ -13,10 +13,11 @@ Cliente::Cliente(){
 	this->estado=true;
 }
 
-Cliente::Cliente(int puerto, string ip){
+Cliente::Cliente(int puerto, string ip,int val){
 	this->puertoServidor=puerto;
 	this->ipServidor=ip;
 	this->estado=true;
+	this->tipoCliente=val;
 }
 /*
 * destructor
@@ -141,8 +142,18 @@ void Cliente::conectarServidor(){
 	int conn=connect(descriptorCliente,(struct sockaddr *)&servidorInfo,sizeof(servidorInfo));
 	
 	if(conn!=-1){
-		pthread_t hiloEscucha;
-		pthread_create(&hiloEscucha,NULL,escucharServidor,(void *)this);
+		if(tipoCliente==2){
+			char msg[] = "1";//esto indica que es usuario
+			escribirServidor((void *)this,msg);
+			pthread_t hiloEscucha;
+			pthread_create(&hiloEscucha,NULL,escucharServidor,(void *)this);
+		}else {
+			char msg[] = "2";//esto indica que es de almacenamiento
+			escribirServidor((void *)this,msg);
+			pthread_t hiloEscucha;
+			pthread_create(&hiloEscucha,NULL,escucharServidor,(void *)this);
+		}
+		
 		
 	//	pthread_t hiloEscribe;
 	//	pthread_create(&hiloEscribe,NULL,escribirServidor,(void *)this);
