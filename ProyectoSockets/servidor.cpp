@@ -104,7 +104,7 @@ void Servidor::aceptarClientes(){
 /*
 *Recibir Archivo
 */
-void* Servidor::recibirArchivo(void * cli){
+void * Servidor::recibirArchivo(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char buffer[BUFFSIZE];
 	int recibido = -1;
@@ -123,7 +123,7 @@ void* Servidor::recibirArchivo(void * cli){
 	
 
 }
-void* Servidor::enviarConfirmacion(void * cli){
+void * Servidor::enviarConfirmacion(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char mensaje[80] = "Paquete Recibido";
 	int lenMensaje = strlen(mensaje);
