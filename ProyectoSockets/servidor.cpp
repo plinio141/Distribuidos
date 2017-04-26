@@ -110,7 +110,7 @@ void * Servidor::recibirArchivo(void * cli){
 	int recibido = -1;
 
 	/*Se abre el archivo para escritura*/
-	FILE archivo;
+	FILE * file;
 	file = fopen("archivoRecibido","wb");
 	enviarConfirmacion((void *)cli);
 	enviarMD5SUM((void *) cli);
@@ -137,7 +137,7 @@ void * Servidor::enviarConfirmacion(void * cli){
 void * Servidor::enviarMD5SUM(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
-	char * fileName[] = "verificacion";
+	char fileName[] = "verificacion";
 	char md5sum[80];
 	system("md5sum archivoRecibido >> verificacion");
 	
