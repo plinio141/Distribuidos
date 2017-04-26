@@ -104,7 +104,7 @@ void Servidor::aceptarClientes(){
 /*
 *Recibir Archivo
 */
-void recibirArchivo(void * cli){
+void Servidor::recibirArchivo(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char buffer[BUFFSIZE];
 	int recibido = -1;
@@ -123,7 +123,7 @@ void recibirArchivo(void * cli){
 	
 
 }
-void enviarConfirmacion(void * cli){
+void Servidor::void enviarConfirmacion(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char mensaje[80] = "Paquete Recibido";
 	int lenMensaje = strlen(mensaje);
@@ -134,7 +134,7 @@ void enviarConfirmacion(void * cli){
 	
 }//End enviarConfirmacion
 
-void enviarMD5SUM(void * cli){
+void Servidor::void enviarMD5SUM(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
 	char * fileName[] = "verificacion";
