@@ -4,8 +4,8 @@
 
 #include "servidor.h"
 
-int cont;
-
+int contClientes; //numero de clientes
+int contAlmacenamiento; //numero de cientes de almacenamiento
 // ************ Constructores ***************
 
 Servidor::Servidor(){
@@ -121,7 +121,7 @@ void Servidor::aceptarClientes(){
 				}
 			}else{
 				cout<<"Se desconecto el cliente con IP: con error "<<endl;
-				close(getDescriptorCliente());
+				close(descriptorCliente);
 			}
 		}
 	}
