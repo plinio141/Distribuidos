@@ -100,7 +100,7 @@ void Servidor::aceptarClientes(){
 
 			if(i!=0){
 				cout<<mensajeDeCliente<<endl;
-				if(strcmp (cliente,mensajeDeCliente) != 0){
+				if(strcmp (cliente,mensajeDeCliente) == 0){
 					
 					clientesDescriptorClientes.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
 					pthread_t clientesHilos;
