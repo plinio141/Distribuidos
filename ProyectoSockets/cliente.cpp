@@ -148,6 +148,7 @@ void Cliente::conectarServidor(){
 			pthread_t hiloEscucha;
 			pthread_create(&hiloEscucha,NULL,escucharServidor,(void *)this);
 			cout<<"Usuario"<<endl;
+			opciones((void *)this);
 		}else {
 			char msg[] = "2";//esto indica que es de almacenamiento
 			escribirServidor((void *)this,msg);
@@ -160,7 +161,7 @@ void Cliente::conectarServidor(){
 	//	pthread_t hiloEscribe;
 	//	pthread_create(&hiloEscribe,NULL,escribirServidor,(void *)this);
 		
-		opciones((void *)this);
+		
 		while(1);
 	}else{
 		cout<<"No se pudo conectar con el servidor"<<endl;
