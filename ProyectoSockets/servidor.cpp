@@ -61,7 +61,7 @@ void * recibirCliente(void *cli){
 		if(i!=0){
 			if(strcmp (key,mensajeDeCliente) != 0){
 				
-				recibirArchivo((void *)cliente);
+				recibirArchivo(cli);
 
 			}
 			
