@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 			while(1);
 		}
 		
-		if(val==2 && val == 3){
+		if(val==2 || val == 3){
 			
 			cout<< "Nombre del host o IP: ";
 				string host;
