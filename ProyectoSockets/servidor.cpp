@@ -114,7 +114,7 @@ void Servidor::aceptarClientes(){
 					clientesDescriptorAlmacenamiento.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
 					pthread_t clientesHilos;
 					
-					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) clientesDescriptorAlmacenamiento[contClientes]);
+					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) clientesDescriptorAlmacenamiento[contAlmacenamiento]);
 					
 					clientesDescriptorAlmacenamiento[contAlmacenamiento]->setId(contAlmacenamiento);
 					contAlmacenamiento++;
