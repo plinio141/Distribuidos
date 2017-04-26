@@ -127,7 +127,7 @@ void enviarConfirmacion(void * cli){
 	char mensaje[80] = "Paquete Recibido";
 	int lenMensaje = strlen(mensaje);
 	printf("\nConfirmación enviada\n");
-	if(write(cliente->getDescriptorCliente(),mensaje,sizeof(mensaje)) == ERROR)
+	if(write(cliente->getDescriptorCliente(),mensaje,sizeof(mensaje)) == -1)
 			perror("Error al enviar la confirmación:");
 
 	
@@ -136,7 +136,7 @@ void enviarConfirmacion(void * cli){
 void enviarMD5SUM(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
-	char *fileName = "verificacion";
+	char * fileName[] = "verificacion";
 	char md5sum[80];
 	system("md5sum archivoRecibido >> verificacion");
 	

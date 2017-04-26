@@ -93,13 +93,14 @@ void * Cliente::enviarArchivo(void * cli){
 	//definir el envio del archivo
 	char msg[] = "1";//esto indica que se va a enviar el archivo
 	escribirServidor((void *)cli,msg);	
-	
+
 	while(!feof(archivo)){
 		fread(buffer,sizeof(char),BUFFSIZE, archivo);
 		if(send(cliente->getDescriptor(),buffer,BUFFSIZE,0)){
 		  cout<<"Error al enviar el archivo"<<endl;
 		}	 
 	}
+	char mensaje[80];
 	read(cliente->getDescriptor(),mensaje,sizeof(mensaje));
 	printf("\nConfirmación recibida:\n%s\n",mensaje);
 	
