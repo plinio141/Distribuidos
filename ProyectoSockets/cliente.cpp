@@ -169,7 +169,7 @@ void * Cliente::listarArchivos(void * cli){
 	}
 	closedir (dir);	
 	for(int i=0; i<listaArchivos.size(); i++){
-		char[] msg=listaArchivos[i]; 
+		char msg [] = listaArchivos[i]; 
 		send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 	}
 
@@ -193,7 +193,7 @@ void * Cliente::contarArchivos(void * cli){
 	    }
 	}
 	closedir(dirp);
-	char msg[] =""+file_count; 
+	char msg = file_count; 
 	send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 }
 
