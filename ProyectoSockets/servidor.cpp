@@ -54,8 +54,8 @@ void Servidor::cerrarServidor(){
 * Metodo recibir cliente (no declarado en el *.h)
 */
 void * recibirCliente(void *ser){
-	Servidor * server = (Server *) ser;
-	ClienteInfo * cliente = (ClienteInfo *) server->clientesDescriptorClientes[server->contClientes];
+	Servidor * server = (Servidor *) ser;
+	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->contClientes];
 
 	char mensajeDeCliente[128];
 	char key[]= "1";
@@ -262,6 +262,10 @@ struct sockaddr_in Servidor::getServidorInfo(){
 vector<ClienteInfo *> Servidor::getClientes(){
 	return this->clientesDescriptor;
 }
+
+vector<ClienteInfo *> Servidor::getClientesDescriptorClientes(){
+	return this->clientesDescriptorClientes;
+}
 /*
 * Setters
 */
@@ -280,5 +284,6 @@ void Servidor::setPuerto(int puerto){
 void Servidor::setServidorInfo(struct sockaddr_in info){
 	this->servidorInfo=info;
 }
+
 
 //fin de la clase

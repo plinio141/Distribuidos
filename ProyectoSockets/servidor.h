@@ -57,5 +57,6 @@ class Servidor{
 		int getPuerto(void);
 		struct sockaddr_in getServidorInfo(void);
 		vector<ClienteInfo *> getClientes(void);
+		vector<ClienteInfo *> getClientesDescriptorClientes();
 		
 };//fin de la clase
