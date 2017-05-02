@@ -159,7 +159,7 @@ void * Servidor::seleccionarAlmacenmiento(){
 	}
 	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[0]);
 	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[1]);
-	return (void *)seleccionAlmacenamiento;
+	return * seleccionAlmacenamiento;
 }
 
 /*
@@ -181,7 +181,7 @@ void Servidor::ejecutarServidor(){
 /*
 *Recibir Archivo
 */
-void ClienteInfo::recibirArchivo(void * cli, void * sel, void * fileName){
+void Servidor::recibirArchivo(void * cli, void * sel, void * fileName){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	vector<ClienteInfo *> seleccionAlmacenamiento = (vector<ClienteInfo *>) sel;
 	char * [] nameFile = (char * [])fileName;
@@ -215,7 +215,7 @@ void ClienteInfo::recibirArchivo(void * cli, void * sel, void * fileName){
 	
 
 }
-void ClienteInfo::enviarConfirmacion(void * cli){
+void Servidor::enviarConfirmacion(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char mensaje[80] = "Paquete Recibido";
 	int lenMensaje = strlen(mensaje);
@@ -226,7 +226,7 @@ void ClienteInfo::enviarConfirmacion(void * cli){
 	
 }//End enviarConfirmacion
 
-void ClienteInfo::enviarMD5SUM(void * cli){
+void Servidor::enviarMD5SUM(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
 	char fileName[] = "verificacion";
