@@ -184,7 +184,7 @@ void Servidor::ejecutarServidor(){
 void Servidor::recibirArchivo(void * cli, void * sel, void * fileName){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	vector<ClienteInfo *> seleccionAlmacenamiento = (vector<ClienteInfo *>) sel;
-	char * nameFile [] = (char *)fileName;
+	char * nameFile = (char *)fileName;
 	char buffer[BUFFSIZE];
 	int recibido = -1;
 
