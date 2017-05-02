@@ -32,11 +32,17 @@ void * Cliente::escucharServidor(void *cli){
 	Cliente* cliente=(Cliente *) cli;
 	char mensajeDeServidor[60];
 	char key[] = "1"; // Opcion de recibir archivo
+	char key2[] = "2"; // Opcion de listar archivos
+	char key3[] = "3"; // Opcion de contar archivos
 	while(1){
 		int i = recv(cliente->getDescriptor(), (void *)&mensajeDeServidor,60,0);
 		if(i!=0){
 			if(strcmp (key,mensajeDeServidor) != 0){
 				cliente->recibirArchivo((void *)cliente);
+			}else if(strcmp (key2,mensajeDeServidor) != 0){
+				cliente->listarArchivos((void *)cliente);
+			}else if(strcmp (key3,mensajeDeServidor) != 0){
+				cliente->contarArchivos((void *)cliente);
 			}
 			
 		}else{
@@ -58,7 +64,7 @@ void * Cliente::escribirServidor(void * cli, char msg[]){
 	
 	int i=send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 	sleep(1);
-		
+
 	if(i==-1){
 		conectado=0;
 		cout<<"Se desconecto del servidor"<<endl;
@@ -82,7 +88,8 @@ void * Cliente::opciones(void * cli){
 	switch(opcion){
 		case 1: enviarArchivo(cli);
 		break;
-		case 2: listarArchivos(cli);
+		case 2: char[] msg="2"; 
+				send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 		break;
 		case 3: eliminarArchivo(cli);
 		break;
@@ -96,19 +103,24 @@ void * Cliente::enviarArchivo(void * cli){
 	Cliente * cliente = (Cliente *) cli;
 	char url[200];
 	char buffer[BUFFSIZE];
+	char name[200];
 	cout<<"ingrese la ruta del archivo a enviar"<<endl;
 	cin>>url;
+	cout<<"ingrese el nombre del archivo junto a la extensión"<<endl;
+	cin>>name;
 	cin.get();
 	FILE * archivo;
 	archivo = fopen(url,"rb");
 	//definir el envio del archivo
 	char msg[] = "1";//esto indica que se va a enviar el archivo
-	escribirServidor((void *)cli,msg);	
+	escribirServidor((void *)cli,msg);
+
+	escribirServidor((void *)cli,name);		
 
 	while(!feof(archivo)){
 		fread(buffer,sizeof(char),BUFFSIZE, archivo);
 		if(send(cliente->getDescriptor(),buffer,BUFFSIZE,0)==-1){
-		  cout<<"Error al enviar el archivo"<<endl;
+			cout<<"Error al enviar el archivo"<<endl;
 		}	 
 	}
 	char mensaje[80];
@@ -126,6 +138,60 @@ void * Cliente::enviarArchivo(void * cli){
 * Metodo de listar archivos
 */
 void * Cliente::listarArchivos(void * cli){
+
+	vector<char> listaArchivos;
+	/* Con un puntero a DIR abriremos el directorio */
+	DIR *dir;
+  /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
+	struct dirent *ent;
+
+  /* Empezaremos a leer en el directorio actual */
+	dir = opendir ("./Archivos");
+
+  /* Miramos que no haya error */
+	if (dir == NULL) 
+		error("No puedo abrir el directorio");
+
+  /* Una vez nos aseguramos de que no hay error, ¡vamos a jugar! */
+  /* Leyendo uno a uno todos los archivos que hay */
+	cout<<"Listar archivos"<<endl;
+	while ((ent = readdir (dir)) != NULL) 
+	{
+      /* Nos devolverá el directorio actual (.) y el anterior (..), como hace ls */
+		if ( (strcmp(ent->d_name, ".")!=0) && (strcmp(ent->d_name, "..")!=0) )
+		{
+      /* Una vez tenemos el archivo, lo pasamos a una función para procesarlo. */
+			cout<<ent->d_name<<endl;
+			listaArchivos.push_back(ent->d_name);
+		}
+	}
+	closedir (dir);	
+	for(int i=0; i<listaArchivos.size(); i++){
+		char[] msg=listaArchivos[i]; 
+		send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
+	}
+
+	char[] msg="end"; 
+	send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
+}
+
+/*
+* Metodo de listar archivos
+*/
+void * Cliente::contarArchivos(void * cli){
+	int file_count = 0;
+	DIR * dirp;
+	struct dirent * entry;
+
+	dirp = opendir("./Archivos"); /* There should be error handling after this */
+	while ((entry = readdir(dirp)) != NULL) {
+	    if (entry->d_type == DT_REG) { /* If the entry is a regular file */
+	         file_count++;
+	    }
+	}
+	closedir(dirp);
+	char[] msg=file_count; 
+	send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 }
 
 /*
@@ -204,7 +270,7 @@ void ClienteInfo::enviarConfirmacion(void * cli){
 	int lenMensaje = strlen(mensaje);
 	printf("\nConfirmación enviada\n");
 	if(write(cliente->getDescriptorCliente(),mensaje,sizeof(mensaje)) == -1)
-			perror("Error al enviar la confirmación:");
+		perror("Error al enviar la confirmación:");
 }//End enviarConfirmacion
 
 void ClienteInfo::enviarMD5SUM(void * cli){
@@ -221,6 +287,8 @@ void ClienteInfo::enviarMD5SUM(void * cli){
 	fclose(tmp);
 
 }//End enviarMD5DUM
+
+
 
 
 /*

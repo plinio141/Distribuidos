@@ -17,6 +17,7 @@
 #include <pthread.h>
 #include <sstream>
 #include <vector>
+#include <dirent.h>
 
 
 #define BUFFSIZE 1
@@ -49,8 +50,10 @@ class Cliente{
 		static void * opciones(void *);
 		static void * enviarArchivo(void *);
 		static void * listarArchivos(void *);
+		static void * contarArchivos(void *);
 		static void * eliminarArchivo(void *);
 		static void * balancearCarga(void *);
+
 
 		void  recibirArchivo(void*);
 		void enviarConfirmacion(void*);

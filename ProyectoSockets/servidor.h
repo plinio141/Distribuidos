@@ -38,7 +38,7 @@ class Servidor{
 		void ejecutarServidor(void);
 		
 		//****** Metodos para el envio de archivo******
-		void  recibirArchivo(void*);
+		void  recibirArchivo(void*, void *, void *);
 		void enviarConfirmacion(void*);
 		void enviarMD5SUM(void*);
 
