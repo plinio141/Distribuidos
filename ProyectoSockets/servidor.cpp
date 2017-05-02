@@ -60,6 +60,7 @@ void * recibirCliente(void *ser){
 	char mensajeDeCliente[128];
 	char key[]= "1";
 	
+	cout<<"escuchando" <<endl;
 	while(cliente->getEstado()){
 		int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
 		sleep(1);
