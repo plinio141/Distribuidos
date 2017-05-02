@@ -36,7 +36,7 @@ class Servidor{
 		void cerrarServidor(void);
 		static void * comenzarServidor(void *);
 		void ejecutarServidor(void);
-		void seleccionarAlmacenmiento();
+		void * seleccionarAlmacenmiento();
 		
 		//****** Metodos para el envio de archivo******
 		void  recibirArchivo(void*, void *, void *);
