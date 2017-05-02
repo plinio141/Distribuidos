@@ -55,7 +55,7 @@ void Servidor::cerrarServidor(){
 */
 void * recibirCliente(void *ser){
 	Servidor * server = (Servidor *) ser;
-	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->contClientes];
+	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->getContClientes()];
 
 	char mensajeDeCliente[128];
 	char key[]= "1";
@@ -254,6 +254,11 @@ int Servidor::getIdBind(){
 int Servidor::getPuerto(){
 	return this->puerto;
 }
+
+int Servidor::getContClientes(){
+	return this->contClientes;
+}
+
 
 struct sockaddr_in Servidor::getServidorInfo(){
 	return this->servidorInfo;
