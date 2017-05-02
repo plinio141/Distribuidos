@@ -50,6 +50,7 @@ class Cliente{
 		static void * opciones(void *);
 		static void * enviarArchivo(void *);
 		static void * listarArchivos(void *);
+		static void * listarArchivosAlmacenados(void *);
 		static void * contarArchivos(void *);
 		static void * eliminarArchivo(void *);
 		static void * balancearCarga(void *);
