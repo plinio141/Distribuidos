@@ -55,6 +55,8 @@ void Servidor::cerrarServidor(){
 */
 void * recibirCliente(void *ser){
 	Servidor * server = (Servidor *) ser;
+	cout<<server->getClientesDescriptorClientes()<<endl;
+	cout<<server->getContClientes()<<endl;
 	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->getContClientes()];
 
 	char mensajeDeCliente[128];
