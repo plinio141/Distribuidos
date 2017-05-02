@@ -202,10 +202,10 @@ void Servidor::recibirArchivo(void * cli, void * sel, void * fileName){
 	while((recibido = recv(cliente->getDescriptorCliente(), buffer, BUFFSIZE, 0)) > 0){
 		printf("%s",buffer);
 		//fwrite(buffer,sizeof(char),1,file);
-		if(send(seleccionAlmacenamiento[0]->getDescriptor(),buffer,BUFFSIZE,0)==-1){
+		if(send(seleccionAlmacenamiento[0]->getDescriptorCliente(),buffer,BUFFSIZE,0)==-1){
 		  cout<<"Error al enviar el archivo"<<endl;
 		}
-		if(send(seleccionAlmacenamiento[1]->getDescriptor(),buffer,BUFFSIZE,0)==-1){
+		if(send(seleccionAlmacenamiento[1]->getDescriptorCliente(),buffer,BUFFSIZE,0)==-1){
 		  cout<<"Error al enviar el archivo"<<endl;
 		}
 	}//Termina la recepción del archivo
