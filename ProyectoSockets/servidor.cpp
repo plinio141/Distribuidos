@@ -131,8 +131,8 @@ void Servidor::aceptarClientes(){
 	}
 }
 
-void * Servidor::seleccionarAlmacenmiento(){
-	vector<ClienteInfo> seleccionAlmacenamiento;
+vector<ClienteInfo *> Servidor::seleccionarAlmacenmiento(){
+	vector<ClienteInfo *> seleccionAlmacenamiento;
 	char mensajeACliente[]= "2";
 	for(int i=0; i<clientesDescriptorAlmacenamiento.size(); i++){
 		ClienteInfo * cliente = clientesDescriptorAlmacenamiento[i];
@@ -147,7 +147,7 @@ void * Servidor::seleccionarAlmacenmiento(){
 	for(int i=0; i<clientesDescriptorAlmacenamiento.size(); i++){
 		for(int j=i+1; j<clientesDescriptorAlmacenamiento.size(); j++){
 			if(clientesDescriptorAlmacenamiento[i]>clientesDescriptorAlmacenamiento[j]){
-				ClienteInfo clienteAux= clientesDescriptorAlmacenamiento[i];
+				ClienteInfo * clienteAux= clientesDescriptorAlmacenamiento[i];
 				clientesDescriptorAlmacenamiento[i]=clientesDescriptorAlmacenamiento[j];
 				clientesDescriptorAlmacenamiento[j]= clienteAux;
 			}
@@ -159,7 +159,7 @@ void * Servidor::seleccionarAlmacenmiento(){
 	}
 	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[0]);
 	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[1]);
-	return (void *)seleccionAlmacenamiento;
+	return seleccionAlmacenamiento;
 }
 
 /*
