@@ -132,7 +132,7 @@ void Servidor::aceptarClientes(){
 
 void * Servidor::seleccionarAlmacenmiento(){
 	vector<ClienteInfo *> seleccionAlmacenamiento;
-	mensajeACliente[]= "2";
+	char mensajeACliente[]= "2";
 	for(int i=0; i<clientesDescriptorAlmacenamiento.size(); i++){
 		ClienteInfo * cliente = clientesDescriptorAlmacenamiento[i];
 		if(send(cliente->getDescriptorCliente(), (void *)mensajeACliente, sizeof(mensajeACliente),0)!=-1){

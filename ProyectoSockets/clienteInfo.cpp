@@ -12,7 +12,6 @@ ClienteInfo::ClienteInfo(int desc, struct sockaddr_in infor){
 	this->clienteInfor=infor;
 	this->estado=true;
 }
-
 /*
 * destructor
 */
