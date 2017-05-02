@@ -58,6 +58,7 @@ void * recibirCliente(void *ser){
 	ClienteInfo * cliente = (ClienteInfo *) server->clientesDescriptorClientes[server->contClientes];
 
 	char mensajeDeCliente[128];
+	char key[]= "1";
 	
 	while(cliente->getEstado()){
 		int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
@@ -158,7 +159,7 @@ void * Servidor::seleccionarAlmacenmiento(){
 	}
 	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[0]);
 	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[1]);
-	return seleccionAlmacenamiento;
+	return (void *)seleccionAlmacenamiento;
 }
 
 /*
