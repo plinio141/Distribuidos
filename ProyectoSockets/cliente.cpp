@@ -144,7 +144,7 @@ void * Cliente::listarArchivos(void * cli){
 
 	Cliente * cliente = (Cliente *) cli;
 
-	vector<string> listaArchivos;
+	vector<string> listaArchivos(0);
 	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
   /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
