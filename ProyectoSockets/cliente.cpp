@@ -138,6 +138,8 @@ void * Cliente::enviarArchivo(void * cli){
 * Metodo de listar archivos
 */
 void * Cliente::listarArchivos(void * cli){
+	
+	Cliente * cliente = (Cliente *) cli;
 
 	vector<char> listaArchivos;
 	/* Con un puntero a DIR abriremos el directorio */
@@ -171,7 +173,7 @@ void * Cliente::listarArchivos(void * cli){
 		send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 	}
 
-	char[] msg="end"; 
+	char msg [] ="end"; 
 	send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 }
 
@@ -179,6 +181,7 @@ void * Cliente::listarArchivos(void * cli){
 * Metodo de listar archivos
 */
 void * Cliente::contarArchivos(void * cli){
+	Cliente * cliente = (Cliente *) cli;
 	int file_count = 0;
 	DIR * dirp;
 	struct dirent * entry;
@@ -190,7 +193,7 @@ void * Cliente::contarArchivos(void * cli){
 	    }
 	}
 	closedir(dirp);
-	char[] msg=file_count; 
+	char msg[] =file_count; 
 	send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 }
 
