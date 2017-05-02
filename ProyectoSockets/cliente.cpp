@@ -48,7 +48,7 @@ void * Cliente::escucharServidor(void *cli){
 		}else{
 			cout<<"Se desconecto el cliente con IP: "<<inet_ntoa(cliente->getClienteInfor().sin_addr)<<" con error "<<endl;
 			cliente->setEstado(false);
-			close(cliente->getDescriptorCliente());
+			close(cliente->getDescriptor());
 		}
 		
 	}
@@ -142,7 +142,7 @@ void * Cliente::listarArchivos(void * cli){
 
 	Cliente * cliente = (Cliente *) cli;
 
-	vector<char*> listaArchivos=new vector<char*>();
+	vector<char*> listaArchivos();
 	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
   /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
