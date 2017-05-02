@@ -76,6 +76,7 @@ void * Cliente::escribirServidor(void * cli, char msg[]){
 *Metodo de opciones de cliente
 */
 void * Cliente::opciones(void * cli){
+	Cliente * cliente = (Cliente *) cli;
 	int opcion;
 	cout<<"Opciones Cliente"<<endl;
 	cout<<"1. Subir Archivo"<<endl;
@@ -88,7 +89,7 @@ void * Cliente::opciones(void * cli){
 	switch(opcion){
 		case 1: enviarArchivo(cli);
 		break;
-		case 2: char[] msg="2"; 
+		case 2: char msg[]="2"; 
 				send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 		break;
 		case 3: eliminarArchivo(cli);
@@ -141,7 +142,7 @@ void * Cliente::listarArchivos(void * cli){
 
 	Cliente * cliente = (Cliente *) cli;
 
-	vector<char*> listaArchivos={};
+	vector<char*> listaArchivos=new vector<char*>();
 	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
   /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
@@ -152,7 +153,7 @@ void * Cliente::listarArchivos(void * cli){
 
   /* Miramos que no haya error */
 	if (dir == NULL) 
-		error("No puedo abrir el directorio");
+		cout<<"No puedo abrir el directorio"<<endl;
 
   /* Una vez nos aseguramos de que no hay error, ¡vamos a jugar! */
   /* Leyendo uno a uno todos los archivos que hay */
