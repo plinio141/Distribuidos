@@ -62,11 +62,12 @@ void * recibirCliente(void *ser){
 	
 
 	while(cliente->getEstado()){
-
+		cout<<"escuchando" <<endl;
 		int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
+		cout<<"escuchando2" <<endl;
 		sleep(1);
 		if(i!=0){
-			cout<<"escuchando" <<endl;
+
 			if(strcmp (key,mensajeDeCliente) != 0){
 				recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
 				cout<<mensajeDeCliente<<endl;
