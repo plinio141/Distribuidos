@@ -144,7 +144,7 @@ void * Cliente::listarArchivos(void * cli){
 
 	Cliente * cliente = (Cliente *) cli;
 
-	vector<string> listaArchivos(0);
+	vector<string> listaArchivos;
 	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
   /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
@@ -172,7 +172,7 @@ void * Cliente::listarArchivos(void * cli){
 	}
 	closedir (dir);	
 	for(int i=0; i<listaArchivos.size(); i++){
-		char msg [] = listaArchivos[i]; 
+		string msg  = listaArchivos[i]; 
 		send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 	}
 
