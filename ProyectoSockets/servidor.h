@@ -17,7 +17,9 @@ class Servidor{
 		vector<ClienteInfo *> clientesDescriptor;
 		vector<ClienteInfo *> clientesDescriptorClientes;
 		vector<ClienteInfo *> clientesDescriptorAlmacenamiento;
-		
+		int contClientes; //numero de clientes
+		int contAlmacenamiento; //numero de cientes de almacenamiento
+
 		bool state;
 		
 	public:
@@ -34,6 +36,12 @@ class Servidor{
 		void cerrarServidor(void);
 		static void * comenzarServidor(void *);
 		void ejecutarServidor(void);
+		
+		//****** Metodos para el envio de archivo******
+		void  recibirArchivo(void*);
+		void enviarConfirmacion(void*);
+		void enviarMD5SUM(void*);
+
 		
 		
 		//****** Setters ******

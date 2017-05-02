@@ -31,10 +31,20 @@ Cliente::~Cliente(){
 void * Cliente::escucharServidor(void *cli){
 	Cliente* cliente=(Cliente *) cli;
 	char mensajeDeServidor[60];
-	
+	char key[] = "1"; // Opcion de recibir archivo
 	while(1){
-		recv(cliente->getDescriptor(), (void *)&mensajeDeServidor,60,0);
-		cout<<mensajeDeServidor<<endl;
+		int i = recv(cliente->getDescriptor(), (void *)&mensajeDeServidor,60,0);
+		if(i!=0){
+			if(strcmp (key,mensajeDeServidor) != 0){
+				cliente->recibirArchivo((void *)cliente);
+			}
+			
+		}else{
+			cout<<"Se desconecto el cliente con IP: "<<inet_ntoa(cliente->getClienteInfor().sin_addr)<<" con error "<<endl;
+			cliente->setEstado(false);
+			close(cliente->getDescriptorCliente());
+		}
+		
 	}
 }
 
@@ -167,6 +177,51 @@ void Cliente::conectarServidor(){
 		cout<<"No se pudo conectar con el servidor"<<endl;
 	}
 }
+
+/*
+*Recibir Archivo
+*/
+void ClienteInfo::recibirArchivo(void * cli){
+	Cliente * cliente = (Cliente *) cli;
+	char buffer[BUFFSIZE];
+	int recibido = -1;
+
+	/*Se abre el archivo para escritura*/
+	FILE * file;
+	file = fopen("Archivos/archivoRecibido","wb");
+	
+	while((recibido = recv(cliente->getDescriptor(), buffer, BUFFSIZE, 0)) > 0){
+		printf("%s",buffer);
+		fwrite(buffer,sizeof(char),1,file);
+	}//Termina la recepción del archivo
+	enviarConfirmacion((void *)cliente);
+	enviarMD5SUM((void *)cliente);
+	fclose(file);
+}
+void ClienteInfo::enviarConfirmacion(void * cli){
+	ClienteInfo * cliente = (ClienteInfo *) cli;
+	char mensaje[80] = "Paquete Recibido";
+	int lenMensaje = strlen(mensaje);
+	printf("\nConfirmación enviada\n");
+	if(write(cliente->getDescriptorCliente(),mensaje,sizeof(mensaje)) == -1)
+			perror("Error al enviar la confirmación:");
+}//End enviarConfirmacion
+
+void ClienteInfo::enviarMD5SUM(void * cli){
+	ClienteInfo * cliente = (ClienteInfo *) cli;
+	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
+	char fileName[] = "verificacion";
+	char md5sum[80];
+	system("md5sum archivoRecibido >> verificacion");
+	
+	tmp = fopen(fileName,"r");
+	fscanf(tmp,"%s",md5sum);	
+	printf("\nMD5SUM:%s\n",md5sum);	
+	write(cliente->getDescriptorCliente(),md5sum,sizeof(md5sum));
+	fclose(tmp);
+
+}//End enviarMD5DUM
+
 
 /*
 * Getters

@@ -29,6 +29,8 @@ class ClienteInfo{
 		struct sockaddr_in clienteInfor;
 		bool estado;
 		int id;
+		int numeroArchivos;
+		
 	
 	public:
 		//***** Constructor ******

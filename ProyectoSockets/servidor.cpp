@@ -4,16 +4,20 @@
 
 #include "servidor.h"
 
-int contClientes; //numero de clientes
-int contAlmacenamiento; //numero de cientes de almacenamiento
+
 // ************ Constructores ***************
 
 Servidor::Servidor(){
 	this->puerto=9000;
+	this->contClientes=0;
+	this->contAlmacenamiento=0;
+
 }
 
 Servidor::Servidor(int puerto){
 	this->puerto=puerto;
+	this->contClientes=0;
+	this->contAlmacenamiento=0;
 }
 
 // ************ Destructor **************
@@ -49,22 +53,20 @@ void Servidor::cerrarServidor(){
 /**
 * Metodo recibir cliente (no declarado en el *.h)
 */
-void * recibirCliente(void *cli){
-	ClienteInfo * cliente = (ClienteInfo *) cli;
-	char key[] = "1"; // Opcion de recibir archivo
+void * recibirCliente(void *ser){
+	Server * server = (Server *) ser;
+	ClienteInfo * cliente = (ClienteInfo *) server->clientesDescriptorClientes[server->contClientes];
+
 	char mensajeDeCliente[128];
 	
 	while(cliente->getEstado()){
 		int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
 		sleep(1);
-		
 		if(i!=0){
 			if(strcmp (key,mensajeDeCliente) != 0){
-				
-				cliente->recibirArchivo((void *)cliente);
-
+				vector seleccion = server->seleccionarAlmacenmiento();
+				server->recibirArchivo((void *)cliente,(void *) seleccion);
 			}
-			
 		}else{
 			cout<<"Se desconecto el cliente con IP: "<<inet_ntoa(cliente->getClienteInfor().sin_addr)<<" con error "<<endl;
 			cliente->setEstado(false);
@@ -72,6 +74,7 @@ void * recibirCliente(void *cli){
 		}
 	}
 }
+
 
 /**
 * Metodo aceptar clientes
@@ -103,19 +106,16 @@ void Servidor::aceptarClientes(){
 				if(strcmp (cliente,mensajeDeCliente) == 0){
 					
 					clientesDescriptorClientes.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
-					pthread_t clientesHilos;
-					
-					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) clientesDescriptorClientes[contClientes]);
-					
 					clientesDescriptorClientes[contClientes]->setId(contClientes);
 					contClientes++;
+					pthread_t clientesHilos;
+					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) this);
+					
 					cout<<"Cliente"<<endl;
 				}else{
 					clientesDescriptorAlmacenamiento.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
-					pthread_t clientesHilos;
-					
-					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) clientesDescriptorAlmacenamiento[contAlmacenamiento]);
-					
+					//pthread_t clientesHilos;
+					//pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) clientesDescriptorAlmacenamiento[contAlmacenamiento]);
 					clientesDescriptorAlmacenamiento[contAlmacenamiento]->setId(contAlmacenamiento);
 					contAlmacenamiento++;
 					cout<<"Almacenamiento"<<endl;
@@ -128,6 +128,36 @@ void Servidor::aceptarClientes(){
 	}
 }
 
+void * Servidor::seleccionarAlmacenmiento(){
+	vector<ClienteInfo *> seleccionAlmacenamiento;
+	mensajeACliente[]= "2";
+	for(int i=0; i<clientesDescriptorAlmacenamiento.size(); i++){
+		ClienteInfo * cliente = clientesDescriptorAlmacenamiento[i];
+		if(send(cliente->getDescriptorCliente(), (void *)mensajeACliente, sizeof(mensajeACliente),0)!=-1){
+			sleep(1);
+			char mensajeDeCliente[128];
+			int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
+			cliente->numeroArchivos=mensajeDeCliente;
+		}
+	}
+
+	for(int i=0; i<clientesDescriptorAlmacenamiento.size(); i++){
+		for(int j=i+1; j<clientesDescriptorAlmacenamiento.size(); j++){
+			if(clientesDescriptorAlmacenamiento[i]>clientesDescriptorAlmacenamiento[j]){
+				ClienteInfo * clienteAux= clientesDescriptorAlmacenamiento[i];
+				clientesDescriptorAlmacenamiento[i]=clientesDescriptorAlmacenamiento[j];
+				clientesDescriptorAlmacenamiento[j]= clienteAux;
+			}
+		}
+	}
+	for(int i=0; i<clientesDescriptorAlmacenamiento.size(); i++){
+		cout<<"Orden"+i<<endl;
+		cout<<clientesDescriptorAlmacenamiento[i]<<endl;
+	}
+	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[0]);
+	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[1]);
+	return seleccionAlmacenamiento;
+}
 
 /*
 * Metodo comenzar servidor
@@ -145,6 +175,60 @@ void Servidor::ejecutarServidor(){
 	pthread_create(&hilo,NULL,&comenzarServidor,(void *) this);
 }
 
+/*
+*Recibir Archivo
+*/
+void ClienteInfo::recibirArchivo(void * cli, void * sel){
+	ClienteInfo * cliente = (ClienteInfo *) cli;
+	vector<ClienteInfo *> seleccionAlmacenamiento = (vector<ClienteInfo *>) sel;
+	char buffer[BUFFSIZE];
+	int recibido = -1;
+
+	/*Se abre el archivo para escritura*/
+	FILE * file;
+	file = fopen("Archivos/archivoRecibido","wb");
+	
+	while((recibido = recv(cliente->getDescriptorCliente(), buffer, BUFFSIZE, 0)) > 0){
+		printf("%s",buffer);
+		//fwrite(buffer,sizeof(char),1,file);
+		if(send(seleccionAlmacenamiento[0]->getDescriptor(),buffer,BUFFSIZE,0)==-1){
+		  cout<<"Error al enviar el archivo"<<endl;
+		}
+		if(send(seleccionAlmacenamiento[1]->getDescriptor(),buffer,BUFFSIZE,0)==-1){
+		  cout<<"Error al enviar el archivo"<<endl;
+		}
+	}//Termina la recepción del archivo
+	enviarConfirmacion((void *)cliente);
+	enviarMD5SUM((void *)cliente);
+	fclose(file);
+	
+
+}
+void ClienteInfo::enviarConfirmacion(void * cli){
+	ClienteInfo * cliente = (ClienteInfo *) cli;
+	char mensaje[80] = "Paquete Recibido";
+	int lenMensaje = strlen(mensaje);
+	printf("\nConfirmación enviada\n");
+	if(write(cliente->getDescriptorCliente(),mensaje,sizeof(mensaje)) == -1)
+			perror("Error al enviar la confirmación:");
+
+	
+}//End enviarConfirmacion
+
+void ClienteInfo::enviarMD5SUM(void * cli){
+	ClienteInfo * cliente = (ClienteInfo *) cli;
+	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
+	char fileName[] = "verificacion";
+	char md5sum[80];
+	system("md5sum archivoRecibido >> verificacion");
+	
+	tmp = fopen(fileName,"r");
+	fscanf(tmp,"%s",md5sum);	
+	printf("\nMD5SUM:%s\n",md5sum);	
+	write(cliente->getDescriptorCliente(),md5sum,sizeof(md5sum));
+	fclose(tmp);
+
+}//End enviarMD5DUM
 
 /*
 * Getters

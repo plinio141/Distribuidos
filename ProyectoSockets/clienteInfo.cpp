@@ -22,14 +22,14 @@ void ClienteInfo::recibirArchivo(void * cli){
 
 	/*Se abre el archivo para escritura*/
 	FILE * file;
-	file = fopen("archivoRecibido","wb");
-	enviarConfirmacion((void *)cliente);
-	enviarMD5SUM((void *)cliente);
+	file = fopen("Archivos/archivoRecibido","wb");
+	
 	while((recibido = recv(cliente->getDescriptorCliente(), buffer, BUFFSIZE, 0)) > 0){
 		printf("%s",buffer);
 		fwrite(buffer,sizeof(char),1,file);
 	}//Termina la recepción del archivo
-
+	enviarConfirmacion((void *)cliente);
+	enviarMD5SUM((void *)cliente);
 	fclose(file);
 	
 

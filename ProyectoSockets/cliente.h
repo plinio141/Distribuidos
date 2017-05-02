@@ -18,6 +18,7 @@
 #include <sstream>
 #include <vector>
 
+
 #define BUFFSIZE 1
 
 using namespace std;
@@ -50,6 +51,11 @@ class Cliente{
 		static void * listarArchivos(void *);
 		static void * eliminarArchivo(void *);
 		static void * balancearCarga(void *);
+
+		void  recibirArchivo(void*);
+		void enviarConfirmacion(void*);
+		void enviarMD5SUM(void*);
+		
 		//******* Getters ******
 		int getDescriptor(void);
 		bool getEstado(void);
