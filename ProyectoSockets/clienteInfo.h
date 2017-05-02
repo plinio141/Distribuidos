@@ -49,10 +49,13 @@ class ClienteInfo{
 		int getDescriptorCliente(void);
 
 		bool getEstado(void);
+
+		bool getNumeroArchivos(void);
 		struct sockaddr_in getClienteInfor();
 		
 		//***** Setters ******
 		void setId(int);
 		void setEstado(bool);
+		void setNumeroArchivos(int);
 
 };// fin de la clase

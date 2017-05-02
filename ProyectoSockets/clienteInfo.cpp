@@ -36,6 +36,9 @@ struct sockaddr_in ClienteInfo::getClienteInfor(){
 bool ClienteInfo::getEstado(){
 	return this->estado;
 }
+int ClienteInfo::getNumeroArchivos(){
+	return this->numeroArchivos;
+}
 
 /*
 * Setters
@@ -46,6 +49,10 @@ void ClienteInfo::setId(int id){
 
 void ClienteInfo::setEstado(bool estado){
 	this->estado=estado;
+}
+
+void ClienteInfo::setNumeroArchivos(int numeroArchivos){
+	this->numeroArchivos=numeroArchivos;
 }
 
 //fin de la clase
