@@ -141,7 +141,7 @@ void * Cliente::listarArchivos(void * cli){
 
 	Cliente * cliente = (Cliente *) cli;
 
-	vector<char> listaArchivos;
+	vector<char> listaArchivos={};
 	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
   /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
@@ -194,7 +194,7 @@ void * Cliente::contarArchivos(void * cli){
 	}
 	closedir(dirp);
 	char msg = file_count; 
-	send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
+	send(cliente->getDescriptor(),(void *)&msg,sizeof(msg),0);
 }
 
 /*
