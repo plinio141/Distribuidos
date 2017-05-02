@@ -60,9 +60,9 @@ void * recibirCliente(void *ser){
 	char mensajeDeCliente[128];
 	char key[]= "1";
 	
-
+	cout<<"escuchando" <<endl;
 	while(cliente->getEstado()){
-		cout<<"escuchando" <<endl;
+		
 		int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
 		cout<<"escuchando2" <<endl;
 		sleep(1);
