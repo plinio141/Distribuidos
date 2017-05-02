@@ -184,17 +184,17 @@ void Servidor::ejecutarServidor(){
 void Servidor::recibirArchivo(void * cli, void * sel, void * fileName){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	vector<ClienteInfo *> seleccionAlmacenamiento = (vector<ClienteInfo *>) sel;
-	char * [] nameFile = (char * [])fileName;
+	char * nameFile [] = (char * [])fileName;
 	char buffer[BUFFSIZE];
 	int recibido = -1;
 
 	/*Se abre el archivo para escritura*/
 	//FILE * file;
 	//file = fopen("Archivos/archivoRecibido","wb");
-	if(send(seleccionAlmacenamiento[0]->getDescriptor(),(void *)nameFile,sizeof(nameFile),0)==-1){
+	if(send(seleccionAlmacenamiento[0]->getDescriptorCliente(),(void *)nameFile,sizeof(nameFile),0)==-1){
 		cout<<"Error al enviar el archivo"<<endl;
 	}
-	if(send(seleccionAlmacenamiento[1]->getDescriptor(),(void *)nameFile,sizeof(nameFile),0)==-1){
+	if(send(seleccionAlmacenamiento[1]->getDescriptorCliente(),(void *)nameFile,sizeof(nameFile),0)==-1){
 	  cout<<"Error al enviar el archivo"<<endl;
 	}
 
