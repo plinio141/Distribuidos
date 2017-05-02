@@ -54,7 +54,7 @@ void Servidor::cerrarServidor(){
 * Metodo recibir cliente (no declarado en el *.h)
 */
 void * recibirCliente(void *ser){
-	Server * server = (Server *) ser;
+	Servidor * server = (Server *) ser;
 	ClienteInfo * cliente = (ClienteInfo *) server->clientesDescriptorClientes[server->contClientes];
 
 	char mensajeDeCliente[128];
@@ -198,7 +198,7 @@ void Servidor::recibirArchivo(void * cli, void * sel1, void * sel2, void * fileN
 	if(send(seleccionAlmacenamiento2->getDescriptorCliente(),(void *)nameFile,sizeof(nameFile),0)==-1){
 	  cout<<"Error al enviar el archivo"<<endl;
 	}
-	
+
 	while((recibido = recv(cliente->getDescriptorCliente(), buffer, BUFFSIZE, 0)) > 0){
 		printf("%s",buffer);
 		//fwrite(buffer,sizeof(char),1,file);
