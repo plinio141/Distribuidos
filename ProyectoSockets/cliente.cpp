@@ -265,16 +265,16 @@ void Cliente::recibirArchivo(void * cli){
 	fclose(file);
 }
 void Cliente::enviarConfirmacion(void * cli){
-	ClienteInfo * cliente = (ClienteInfo *) cli;
+	Cliente * cliente = (Cliente *) cli;
 	char mensaje[80] = "Paquete Recibido";
 	int lenMensaje = strlen(mensaje);
 	printf("\nConfirmación enviada\n");
-	if(write(cliente->getDescriptorCliente(),mensaje,sizeof(mensaje)) == -1)
+	if(write(cliente->getDescriptor(),mensaje,sizeof(mensaje)) == -1)
 		perror("Error al enviar la confirmación:");
 }//End enviarConfirmacion
 
 void Cliente::enviarMD5SUM(void * cli){
-	ClienteInfo * cliente = (ClienteInfo *) cli;
+	Cliente * cliente = (Cliente *) cli;
 	FILE *tmp;//Apuntador al archivo temporal que guarda el MD5SUM del archivo.
 	char fileName[] = "verificacion";
 	char md5sum[80];
@@ -283,7 +283,7 @@ void Cliente::enviarMD5SUM(void * cli){
 	tmp = fopen(fileName,"r");
 	fscanf(tmp,"%s",md5sum);	
 	printf("\nMD5SUM:%s\n",md5sum);	
-	write(cliente->getDescriptorCliente(),md5sum,sizeof(md5sum));
+	write(cliente->getDescriptor(),md5sum,sizeof(md5sum));
 	fclose(tmp);
 
 }//End enviarMD5DUM
