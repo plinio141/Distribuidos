@@ -39,7 +39,7 @@ class Servidor{
 		vector<ClienteInfo *> seleccionarAlmacenmiento();
 		
 		//****** Metodos para el envio de archivo******
-		void  recibirArchivo(void*, void *, void *);
+		void  recibirArchivo(void*, void *, void *, void *);
 		void enviarConfirmacion(void*);
 		void enviarMD5SUM(void*);
 

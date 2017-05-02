@@ -68,7 +68,7 @@ void * recibirCliente(void *ser){
 				recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
 				cout<<mensajeDeCliente<<endl;
 				vector <ClienteInfo *> seleccion = server->seleccionarAlmacenmiento();
-				server->recibirArchivo((void *)cliente,(void *) seleccion, (void *) mensajeDeCliente);
+				server->recibirArchivo((void *)cliente,(void *) seleccion[0],(void *)seleccion[1], (void *) mensajeDeCliente);
 			}
 		}else{
 			cout<<"Se desconecto el cliente con IP: "<<inet_ntoa(cliente->getClienteInfor().sin_addr)<<" con error "<<endl;
@@ -181,9 +181,10 @@ void Servidor::ejecutarServidor(){
 /*
 *Recibir Archivo
 */
-void Servidor::recibirArchivo(void * cli, void * sel, void * fileName){
+void Servidor::recibirArchivo(void * cli, void * sel1, void * sel2, void * fileName){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
-	vector<ClienteInfo *> seleccionAlmacenamiento = (vector<ClienteInfo *>) sel;
+	ClienteInfo * seleccionAlmacenamiento1 = (ClienteInfo *) sel1;
+	ClienteInfo * seleccionAlmacenamiento2 = (ClienteInfo *) sel2;
 	char * nameFile = (char *)fileName;
 	char buffer[BUFFSIZE];
 	int recibido = -1;
@@ -191,30 +192,28 @@ void Servidor::recibirArchivo(void * cli, void * sel, void * fileName){
 	/*Se abre el archivo para escritura*/
 	//FILE * file;
 	//file = fopen("Archivos/archivoRecibido","wb");
-	if(send(seleccionAlmacenamiento[0]->getDescriptorCliente(),(void *)nameFile,sizeof(nameFile),0)==-1){
+	if(send(seleccionAlmacenamiento1->getDescriptorCliente(),(void *)nameFile,sizeof(nameFile),0)==-1){
 		cout<<"Error al enviar el archivo"<<endl;
 	}
-	if(send(seleccionAlmacenamiento[1]->getDescriptorCliente(),(void *)nameFile,sizeof(nameFile),0)==-1){
+	if(send(seleccionAlmacenamiento2->getDescriptorCliente(),(void *)nameFile,sizeof(nameFile),0)==-1){
 	  cout<<"Error al enviar el archivo"<<endl;
 	}
-
 	
 	while((recibido = recv(cliente->getDescriptorCliente(), buffer, BUFFSIZE, 0)) > 0){
 		printf("%s",buffer);
 		//fwrite(buffer,sizeof(char),1,file);
-		if(send(seleccionAlmacenamiento[0]->getDescriptorCliente(),buffer,BUFFSIZE,0)==-1){
+		if(send(seleccionAlmacenamiento1->getDescriptorCliente(),buffer,BUFFSIZE,0)==-1){
 		  cout<<"Error al enviar el archivo"<<endl;
 		}
-		if(send(seleccionAlmacenamiento[1]->getDescriptorCliente(),buffer,BUFFSIZE,0)==-1){
+		if(send(seleccionAlmacenamiento2->getDescriptorCliente(),buffer,BUFFSIZE,0)==-1){
 		  cout<<"Error al enviar el archivo"<<endl;
 		}
 	}//Termina la recepción del archivo
 	enviarConfirmacion((void *)cliente);
 	enviarMD5SUM((void *)cliente);
 	//fclose(file);
-	
-
 }
+
 void Servidor::enviarConfirmacion(void * cli){
 	ClienteInfo * cliente = (ClienteInfo *) cli;
 	char mensaje[80] = "Paquete Recibido";
