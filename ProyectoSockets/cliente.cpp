@@ -138,7 +138,7 @@ void * Cliente::enviarArchivo(void * cli){
 * Metodo de listar archivos
 */
 void * Cliente::listarArchivos(void * cli){
-	
+
 	Cliente * cliente = (Cliente *) cli;
 
 	vector<char> listaArchivos;
@@ -193,7 +193,7 @@ void * Cliente::contarArchivos(void * cli){
 	    }
 	}
 	closedir(dirp);
-	char msg[] =file_count; 
+	char msg[] =""+file_count; 
 	send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
 }
 
