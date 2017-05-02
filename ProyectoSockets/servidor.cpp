@@ -159,7 +159,7 @@ void * Servidor::seleccionarAlmacenmiento(){
 	}
 	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[0]);
 	seleccionAlmacenamiento.push_back(clientesDescriptorAlmacenamiento[1]);
-	return (void *)&seleccionAlmacenamiento;
+	return &seleccionAlmacenamiento;
 }
 
 /*
