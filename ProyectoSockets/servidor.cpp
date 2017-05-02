@@ -139,7 +139,7 @@ void * Servidor::seleccionarAlmacenmiento(){
 			sleep(1);
 			char mensajeDeCliente[128];
 			int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
-			cliente->setNumeroArchivos((int*)mensajeDeCliente);
+			cliente->setNumeroArchivos(*(int*)mensajeDeCliente);
 		}
 	}
 

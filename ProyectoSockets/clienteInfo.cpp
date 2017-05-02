@@ -11,6 +11,7 @@ ClienteInfo::ClienteInfo(int desc, struct sockaddr_in infor){
 	this->descriptorCliente=desc;
 	this->clienteInfor=infor;
 	this->estado=true;
+	this->numeroArchivos=0;
 }
 /*
 * destructor
