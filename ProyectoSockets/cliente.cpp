@@ -46,9 +46,10 @@ void * Cliente::escucharServidor(void *cli){
 			}
 			
 		}else{
-			cout<<"Se desconecto el cliente con IP: "<<inet_ntoa(cliente->getClienteInfor().sin_addr)<<" con error "<<endl;
-			cliente->setEstado(false);
+			conectado=0;
+			cout<<"Se desconecto del servidor"<<endl;
 			close(cliente->getDescriptor());
+			exit(EXIT_SUCCESS);
 		}
 		
 	}
@@ -134,7 +135,7 @@ void * Cliente::enviarArchivo(void * cli){
 }
 
 void * Cliente::listarArchivosAlmacenados(void * cli){
-	
+
 }
 
 /*
@@ -144,7 +145,7 @@ void * Cliente::listarArchivos(void * cli){
 
 	Cliente * cliente = (Cliente *) cli;
 
-	vector<char> listaArchivos();
+	vector<char> listaArchivos;
 	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
   /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
