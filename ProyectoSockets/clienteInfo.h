@@ -50,7 +50,7 @@ class ClienteInfo{
 
 		bool getEstado(void);
 
-		bool getNumeroArchivos(void);
+		int getNumeroArchivos(void);
 		struct sockaddr_in getClienteInfor();
 		
 		//***** Setters ******
