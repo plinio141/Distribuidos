@@ -40,7 +40,7 @@ class ClienteInfo{
 		~ClienteInfo();
 
 		// ***** Metodos
-		void  recibirArchivo(void*);
+		//void  recibirArchivo(void*);
 		void enviarConfirmacion(void*);
 		void enviarMD5SUM(void*);
 
