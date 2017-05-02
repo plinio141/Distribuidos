@@ -173,7 +173,7 @@ void * Cliente::listarArchivos(void * cli){
 	closedir (dir);	
 	for(int i=0; i<listaArchivos.size(); i++){
 		string msg  = listaArchivos[i]; 
-		send(cliente->getDescriptor(),(void *)msg,sizeof(msg),0);
+		send(cliente->getDescriptor(),(void *)msg.c_str(),sizeof(msg),0);
 	}
 
 	char msg [] ="end"; 
