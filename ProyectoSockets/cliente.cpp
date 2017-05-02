@@ -46,7 +46,6 @@ void * Cliente::escucharServidor(void *cli){
 			}
 			
 		}else{
-			conectado=0;
 			cout<<"Se desconecto del servidor"<<endl;
 			close(cliente->getDescriptor());
 			exit(EXIT_SUCCESS);
@@ -145,7 +144,7 @@ void * Cliente::listarArchivos(void * cli){
 
 	Cliente * cliente = (Cliente *) cli;
 
-	vector<char> listaArchivos;
+	vector<char[]> listaArchivos;
 	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
   /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
