@@ -132,14 +132,17 @@ void Servidor::aceptarClientes(){
 }
 
 vector<ClienteInfo *> Servidor::seleccionarAlmacenmiento(){
+
 	vector<ClienteInfo *> seleccionAlmacenamiento;
-	char mensajeACliente[]= "2";
+	char mensajeACliente[]= "3";
 	for(int i=0; i<clientesDescriptorAlmacenamiento.size(); i++){
 		ClienteInfo * cliente = clientesDescriptorAlmacenamiento[i];
 		if(send(cliente->getDescriptorCliente(), (void *)mensajeACliente, sizeof(mensajeACliente),0)!=-1){
 			sleep(1);
 			char mensajeDeCliente[128];
+			cout<<"inicio seleccion"<<endl;
 			int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
+			cout<<"fin seleccion"<<endl;
 			cliente->setNumeroArchivos(*(int*)mensajeDeCliente);
 		}
 	}

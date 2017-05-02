@@ -196,6 +196,7 @@ void * Cliente::contarArchivos(void * cli){
 	    }
 	}
 	closedir(dirp);
+	cout<<"contarArchivos"+file_count<<endl;
 	char msg = file_count; 
 	send(cliente->getDescriptor(),(void *)&msg,sizeof(msg),0);
 }
