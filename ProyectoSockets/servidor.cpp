@@ -60,11 +60,11 @@ void * recibirCliente(void *ser){
 	char mensajeDeCliente[128];
 	char key[]= "1";
 	
-	cout<<"escuchando" <<endl;
-	while(true){
-		cout<<"escuchando2" <<endl;
-		int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
 
+	while(cliente->getEstado()){
+		cout<<"escuchando" <<endl;
+		int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
+		cout<<"escuchando2" <<endl;
 		sleep(1);
 		if(i!=0){
 
@@ -114,10 +114,10 @@ void Servidor::aceptarClientes(){
 					
 					clientesDescriptorClientes.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
 					clientesDescriptorClientes[contClientes]->setId(contClientes);
-					contClientes++;
+					
 					pthread_t clientesHilos;
 					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) this);
-					
+					contClientes++;
 					cout<<"Cliente"<<endl;
 				}else{
 					clientesDescriptorAlmacenamiento.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
