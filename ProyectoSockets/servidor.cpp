@@ -66,7 +66,7 @@ void * recibirCliente(void *ser){
 			if(strcmp (key,mensajeDeCliente) != 0){
 				recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
 				cout<<mensajeDeCliente<<endl;
-				vector seleccion = server->seleccionarAlmacenmiento();
+				vector <ClienteInfo *> seleccion = server->seleccionarAlmacenmiento();
 				server->recibirArchivo((void *)cliente,(void *) seleccion, (void *) mensajeDeCliente);
 			}
 		}else{
@@ -139,7 +139,7 @@ void * Servidor::seleccionarAlmacenmiento(){
 			sleep(1);
 			char mensajeDeCliente[128];
 			int i=recv(cliente->getDescriptorCliente(), (void *)&mensajeDeCliente,128,0);
-			cliente->setNumeroArchivos((int)mensajeDeCliente);
+			cliente->setNumeroArchivos((int*)mensajeDeCliente);
 		}
 	}
 
