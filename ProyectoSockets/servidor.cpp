@@ -50,11 +50,13 @@ void Servidor::cerrarServidor(){
 	exit(EXIT_SUCCESS);
 }
 
-
-void * Servidor::recibirCliente(void *ser){
+/**
+* Metodo recibir cliente (no declarado en el *.h)
+*/
+void * recibirCliente(void *ser){
 	Servidor * server = (Servidor *) ser;
 	//cout<<server->getClientesDescriptorClientes()<<endl;
-	cout<<this->getContClientes()<<endl;
+	cout<<server->getContClientes()<<endl;
 	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->getContClientes()];
 
 	char mensajeDeCliente[128];
@@ -119,7 +121,7 @@ void Servidor::aceptarClientes(){
 					cout<<"cont"<<endl;
 					cout<<this->getContClientes()<<endl;
 					pthread_t clientesHilos;
-					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) this);
+					pthread_create(&clientesHilos,NULL,&recibirCliente,this);
 					contClientes++;
 					cout<<"Cliente"<<endl;
 				}else{
