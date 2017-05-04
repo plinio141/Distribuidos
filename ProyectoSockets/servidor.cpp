@@ -58,6 +58,7 @@ void * recibirCliente(void *ser){
 
 	vector<ClienteInfo *> listaClientes = server->getClientesDescriptorClientes();
 	cout<<"listaClientes"<<endl;
+	cout<<server->getContClientes()<<endl;
 	ClienteInfo * cliente = (ClienteInfo *) listaClientes[server->getContClientes()];
 
 	char mensajeDeCliente[128];
