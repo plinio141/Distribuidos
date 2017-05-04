@@ -56,13 +56,8 @@ void Servidor::cerrarServidor(){
 void * recibirCliente(void *ser){
 	Servidor * server = (Servidor *) ser;
 
-	cout<<"cont"<<endl;
-	cout<<server->getContClientes()<<endl;
-	cout<<"tamano list"<<endl;
-	cout<<server->getClientesDescriptorClientes().size()<<endl;
-	
-
-	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->getContClientes()];
+	vector<ClienteInfo *> listaClientes = server->getClientesDescriptorClientes();
+	ClienteInfo * cliente = (ClienteInfo *) listaClientes[server->getContClientes()];
 
 	char mensajeDeCliente[128];
 	char key[]= "1";
