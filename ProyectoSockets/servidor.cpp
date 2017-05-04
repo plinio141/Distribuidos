@@ -53,16 +53,16 @@ void Servidor::cerrarServidor(){
 /**
 * Metodo recibir cliente (no declarado en el *.h)
 */
-void * Servidor::recibirCliente(void *ser){
+void * recibirCliente(void *ser){
 	Servidor * server = (Servidor *) ser;
 
 	cout<<"cont"<<endl;
-	cout<<server->getContClientes()<<endl;
+	cout<<this->getContClientes()<<endl;
 	cout<<"tamano list"<<endl;
-	cout<<server->getClientesDescriptorClientes().[server->getContClientes()]<<endl;
+	cout<<this->getClientesDescriptorClientes().size()<<endl;
 	
 
-	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes();
+	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->getContClientes()];
 
 	char mensajeDeCliente[128];
 	char key[]= "1";
