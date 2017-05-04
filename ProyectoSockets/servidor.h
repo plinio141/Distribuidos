@@ -35,6 +35,7 @@ class Servidor{
 		void aceptarClientes(void);
 		void cerrarServidor(void);
 		static void * comenzarServidor(void *);
+		static void * recibirCliente(void *);
 		void ejecutarServidor(void);
 		vector<ClienteInfo *> seleccionarAlmacenmiento();
 		

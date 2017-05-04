@@ -53,7 +53,7 @@ void Servidor::cerrarServidor(){
 /**
 * Metodo recibir cliente (no declarado en el *.h)
 */
-void * recibirCliente(void *ser){
+void * Servidor::recibirCliente(void *ser){
 	Servidor * server = (Servidor *) ser;
 	//cout<<server->getClientesDescriptorClientes()<<endl;
 	cout<<server->getContClientes()<<endl;
@@ -121,7 +121,7 @@ void Servidor::aceptarClientes(){
 					cout<<"cont"<<endl;
 					cout<<this->getContClientes()<<endl;
 					pthread_t clientesHilos;
-					pthread_create(&clientesHilos,NULL,&recibirCliente,this);
+					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *)this);
 					contClientes++;
 					cout<<"Cliente"<<endl;
 				}else{
