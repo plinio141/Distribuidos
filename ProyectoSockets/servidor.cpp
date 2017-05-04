@@ -55,8 +55,13 @@ void Servidor::cerrarServidor(){
 */
 void * Servidor::recibirCliente(void *ser){
 	Servidor * server = (Servidor *) ser;
-	//cout<<server->getClientesDescriptorClientes()<<endl;
+
+	cout<<"cont"<<endl;
 	cout<<server->getContClientes()<<endl;
+	cout<<"tamano list"<<endl;
+	cout<<server->getClientesDescriptorClientes().size()<<endl;
+	
+
 	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->getContClientes()];
 
 	char mensajeDeCliente[128];
@@ -116,10 +121,6 @@ void Servidor::aceptarClientes(){
 					
 					clientesDescriptorClientes.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
 					clientesDescriptorClientes[contClientes]->setId(contClientes);
-					cout<<"tamano list"<<endl;
-					cout<<this->getClientesDescriptorClientes().size()<<endl;
-					cout<<"cont"<<endl;
-					cout<<this->getContClientes()<<endl;
 					pthread_t clientesHilos;
 					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *)this);
 					contClientes++;
