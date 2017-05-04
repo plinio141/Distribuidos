@@ -116,8 +116,9 @@ void Servidor::aceptarClientes(){
 					
 					clientesDescriptorClientes.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
 					clientesDescriptorClientes[contClientes]->setId(contClientes);
-					
+					cout<<"tamano list"<<endl;
 					cout<<this->getClientesDescriptorClientes().size()<<endl;
+					cout<<"cont"<<endl;
 					cout<<this->getContClientes()<<endl;
 					pthread_t clientesHilos;
 					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) this);
