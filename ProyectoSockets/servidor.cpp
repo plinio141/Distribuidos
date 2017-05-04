@@ -50,10 +50,8 @@ void Servidor::cerrarServidor(){
 	exit(EXIT_SUCCESS);
 }
 
-/**
-* Metodo recibir cliente (no declarado en el *.h)
-*/
-void * recibirCliente(void *ser){
+
+void * Servidor::recibirCliente(void *ser){
 	Servidor * server = (Servidor *) ser;
 	//cout<<server->getClientesDescriptorClientes()<<endl;
 	cout<<this->getContClientes()<<endl;

@@ -31,6 +31,7 @@ class Servidor{
 		~Servidor();	
 			
 		//****** Metodos ******
+		void * recibirCliente(void *);
 		void inicializarServidor(void);
 		void aceptarClientes(void);
 		void cerrarServidor(void);
