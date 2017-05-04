@@ -57,9 +57,9 @@ void * recibirCliente(void *ser){
 	Servidor * server = (Servidor *) ser;
 
 	cout<<"cont"<<endl;
-	cout<<this->getContClientes()<<endl;
+	cout<<server->getContClientes()<<endl;
 	cout<<"tamano list"<<endl;
-	cout<<this->getClientesDescriptorClientes().size()<<endl;
+	cout<<server->getClientesDescriptorClientes().size()<<endl;
 	
 
 	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->getContClientes()];
