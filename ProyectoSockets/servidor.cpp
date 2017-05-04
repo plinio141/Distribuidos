@@ -59,10 +59,10 @@ void * Servidor::recibirCliente(void *ser){
 	cout<<"cont"<<endl;
 	cout<<server->getContClientes()<<endl;
 	cout<<"tamano list"<<endl;
-	cout<<server->getClientesDescriptorClientes().size()<<endl;
+	cout<<server->getClientesDescriptorClientes().[server->getContClientes()]<<endl;
 	
 
-	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes()[server->getContClientes()];
+	ClienteInfo * cliente = (ClienteInfo *) server->getClientesDescriptorClientes();
 
 	char mensajeDeCliente[128];
 	char key[]= "1";
