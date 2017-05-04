@@ -117,6 +117,8 @@ void Servidor::aceptarClientes(){
 					clientesDescriptorClientes.push_back(new ClienteInfo(descriptorCliente,clienteInfor));
 					clientesDescriptorClientes[contClientes]->setId(contClientes);
 					
+					cout<<server->getClientesDescriptorClientes().size()<<endl;
+					cout<<server->getContClientes()<<endl;
 					pthread_t clientesHilos;
 					pthread_create(&clientesHilos,NULL,&recibirCliente,(void *) this);
 					contClientes++;
