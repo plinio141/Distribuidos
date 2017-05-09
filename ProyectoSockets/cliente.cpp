@@ -258,10 +258,17 @@ void Cliente::recibirArchivo(void * cli){
 	Cliente * cliente = (Cliente *) cli;
 	char buffer[BUFFSIZE];
 	int recibido = -1;
+	char mensajeDeCliente[128];
+	recv(cliente->getDescriptor(), (void *)&mensajeDeCliente,128,0);
+	cout<<mensajeDeCliente<<endl;
+
+	char url []= "Archivos/";
+
+	strcpy (url,mensajeDeCliente);
 
 	/*Se abre el archivo para escritura*/
 	FILE * file;
-	file = fopen("Archivos/archivoRecibido","wb");
+	file = fopen(url,"wb");
 	
 	while((recibido = recv(cliente->getDescriptor(), buffer, BUFFSIZE, 0)) > 0){
 		printf("%s",buffer);
