@@ -1,1 +1,4 @@
-C++ es un lenguaje de programación diseñado a mediados de los años 1980 por Bjarne Stroustrup. La intención de su creación fue el extender al lenguaje du
+C++ es un lenguaje de programación 
+diseñado a mediados de los años 1980 por Bjarne Stroustrup.
+ La intención de su creación fue el extender al lenguaje dusdfs
+ sdfsdfs dsfsfs  sdfdsf 

@@ -198,6 +198,14 @@ void Servidor::recibirArchivo(void * cli, void * sel1, void * sel2, void * fileN
 	char buffer[BUFFSIZE];
 	int recibido = -1;
 
+	char msg[] = "1";//esto indica que se va a enviar el archivo
+	eif(send(seleccionAlmacenamiento1->getDescriptorCliente(),(void *)msg,sizeof(msg),0)==-1){
+		cout<<"Error al enviar el archivo"<<endl;
+	}
+	if(send(seleccionAlmacenamiento2->getDescriptorCliente(),(void *)msg,sizeof(msg),0)==-1){
+	  cout<<"Error al enviar el archivo"<<endl;
+	}
+
 	/*Se abre el archivo para escritura*/
 	//FILE * file;
 	//file = fopen("Archivos/archivoRecibido","wb");

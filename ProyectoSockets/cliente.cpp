@@ -260,8 +260,10 @@ void Cliente::recibirArchivo(void * cli){
 	char buffer[BUFFSIZE];
 	int recibido = -1;
 	char mensajeDeCliente[128];
+
 	recv(cliente->getDescriptor(), (void *)&mensajeDeCliente,128,0);
 	cout<<mensajeDeCliente<<endl;
+	cout<<"recibir archivo"<<endl;
 
 	char url []= "Archivos/";
 
