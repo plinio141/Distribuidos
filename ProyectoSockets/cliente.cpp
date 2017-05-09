@@ -37,6 +37,7 @@ void * Cliente::escucharServidor(void *cli){
 	while(1){
 		int i = recv(cliente->getDescriptor(), (void *)&mensajeDeServidor,60,0);
 		if(i!=0){
+			cout<<"escuchando"<<endl;
 			if(strcmp (key,mensajeDeServidor) != 0){
 				cliente->recibirArchivo((void *)cliente);
 			}else if(strcmp (key2,mensajeDeServidor) != 0){
